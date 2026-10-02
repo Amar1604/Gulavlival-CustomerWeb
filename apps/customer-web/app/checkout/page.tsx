@@ -114,6 +114,11 @@ export default function CheckoutPage() {
       return;
     }
 
+    if (orderType === "DELIVERY" && subtotal < 200) {
+      setError(`Minimum order amount for delivery is ₹200 (your subtotal is ₹${subtotal.toFixed(0)}). Please add more items or switch to Dine-in / Takeaway.`);
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -141,46 +146,8 @@ export default function CheckoutPage() {
       clearCart();
       router.push(`/orders/${order.id}`);
     } catch (err: any) {
-      // If the backend is not running or rejected, generate a realistic client order for demonstration
-      console.warn("Backend error or offline, fallback to simulation:", err);
-      const simulatedId = "ord-" + Date.now();
-      const simulatedOrderNumber = "GG-" + Math.floor(100000 + Math.random() * 900000);
-      
-      const simulatedOrder: Order = {
-        id: simulatedId,
-        order_number: simulatedOrderNumber,
-        order_type: orderType,
-        status: "RECEIVED",
-        table_number: tableNumber || undefined,
-        delivery_address: deliveryAddress || undefined,
-        customer_name: user?.name || "Guest Customer",
-        customer_phone: user?.mobile || "9876543210",
-        subtotal,
-        tax,
-        delivery_charge: deliveryCharge,
-        total: grandTotal,
-        payment_method: "CASH",
-        change_for: changeFor,
-        special_instructions: specialInstructions,
-        whatsapp_updates: whatsappUpdates,
-        created_at: new Date().toISOString(),
-        items: items.map((i) => ({
-          id: i.id,
-          item_name_snapshot: i.menuItem.name,
-          variant_name_snapshot: i.selectedVariant?.name,
-          unit_price: i.itemTotal / i.quantity,
-          quantity: i.quantity,
-          line_total: i.itemTotal,
-          note: i.specialNote,
-        })),
-      };
-
-      // Store in demo order history
-      const existingOrders = JSON.parse(localStorage.getItem("gg_demo_orders") || "[]");
-      localStorage.setItem("gg_demo_orders", JSON.stringify([simulatedOrder, ...existingOrders]));
-
-      clearCart();
-      router.push(`/orders/${simulatedId}`);
+      console.error('Order placement error:', err);
+      setError(err?.message || 'Failed to place order. Please review your order details and try again.');
     } finally {
       setLoading(false);
     }
@@ -340,6 +307,15 @@ export default function CheckoutPage() {
                 }}
                 className="w-full text-xs sm:text-sm p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-850 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-hidden focus:border-amber-500"
               />
+
+              {subtotal < 200 && (
+                <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 text-xs text-amber-900 dark:text-amber-300 flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
+                  <span>
+                    Minimum delivery order is ₹200. Add ₹{(200 - subtotal).toFixed(0)} more to order delivery, or choose Dine-in / Takeaway.
+                  </span>
+                </div>
+              )}
             </div>
           )}
 
