@@ -35,6 +35,17 @@ app.include_router(addresses_router, prefix=settings.API_V1_PREFIX)
 
 
 
+@app.get("/", tags=["Root"])
+def root():
+    return {
+        "service": "Gulavlival Grand Backend API",
+        "version": settings.VERSION,
+        "docs": "/docs",
+        "health": "/health",
+        "status": "online",
+    }
+
+
 @app.get("/health", tags=["Health"])
 def health_check():
     return {
@@ -42,3 +53,4 @@ def health_check():
         "service": "Gulavlival Grand Backend API",
         "version": settings.VERSION,
     }
+
