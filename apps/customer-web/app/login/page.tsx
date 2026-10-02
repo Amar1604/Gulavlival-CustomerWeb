@@ -125,14 +125,14 @@ function LoginForm() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-neutral-600 dark:text-neutral-300 mb-1">
-              Mobile or Email
+              Mobile Number, Email, or Name
             </label>
             <div className="relative">
               <Smartphone className="w-4 h-4 text-neutral-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
               <input
                 type="text"
                 required
-                placeholder="e.g. 9876543210 or user@example.com"
+                placeholder="10-digit mobile, email, or your name"
                 value={identifier}
                 onChange={(e) => setIdentifier(e.target.value)}
                 className="w-full text-xs sm:text-sm pl-10 pr-3.5 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 focus:outline-hidden focus:border-amber-500 focus:ring-1 focus:ring-amber-500"

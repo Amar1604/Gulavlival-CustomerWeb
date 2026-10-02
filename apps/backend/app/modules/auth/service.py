@@ -73,13 +73,17 @@ class AuthService:
     def login(db: Session, req: LoginRequest) -> TokenResponse:
         identifier = req.identifier.strip()
         user = db.query(User).filter(
-            or_(User.email == identifier.lower(), User.phone == identifier)
+            or_(
+                User.email == identifier.lower(),
+                User.phone == identifier,
+                User.full_name.ilike(identifier),
+            )
         ).first()
 
         if not user or not verify_password(req.password, user.password_hash):
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Invalid email/mobile or password."
+                detail="Invalid mobile, email, or password."
             )
 
         if not user.is_active:
