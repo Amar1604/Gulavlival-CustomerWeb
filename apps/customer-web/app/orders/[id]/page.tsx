@@ -8,7 +8,6 @@ import {
   Clock,
   Bike,
   XCircle,
-  Phone,
   ArrowLeft,
   RefreshCw,
   Sparkles,
@@ -251,26 +250,10 @@ export default function OrderTrackingPage() {
           </div>
         </div>
 
-        {/* Support note with 1-tap Call & WhatsApp */}
-        <div className="p-3.5 rounded-2xl bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-100 dark:border-neutral-700/60 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs text-neutral-600 dark:text-neutral-300">
+        {/* Support note */}
+        <div className="p-3.5 rounded-2xl bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-100 dark:border-neutral-700/60 flex items-center justify-between text-xs text-neutral-600 dark:text-neutral-300">
           <span>Need quick assistance with your order?</span>
-          <div className="flex items-center gap-2">
-            <a
-              href="tel:+919149150004"
-              className="flex items-center gap-1 font-bold text-amber-800 dark:text-amber-400 hover:text-amber-900 dark:hover:text-amber-300 bg-amber-100/60 dark:bg-amber-950/60 px-3 py-1.5 rounded-xl border border-amber-200 dark:border-amber-800/50"
-            >
-              <Phone className="w-3.5 h-3.5" />
-              <span>Call Us</span>
-            </a>
-            <a
-              href={`https://wa.me/919149150004?text=Hello%20Gulavlival%20Grand,%20checking%20status%20for%20order%20${encodeURIComponent(order.order_number)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1 font-bold text-emerald-800 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 bg-emerald-100/60 dark:bg-emerald-950/60 px-3 py-1.5 rounded-xl border border-emerald-200 dark:border-emerald-800/50"
-            >
-              <span>💬 WhatsApp</span>
-            </a>
-          </div>
+          <span className="font-bold text-amber-800 dark:text-amber-400">Please speak with our counter staff</span>
         </div>
       </div>
     </div>

@@ -47,3 +47,30 @@ def get_optional_user(
         return get_current_user(token=token, db=db)
     except HTTPException:
         return None
+
+
+def require_staff(current_user: User = Depends(get_current_user)) -> User:
+    if current_user.role not in ["STAFF", "MANAGER", "OWNER"]:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Access forbidden: Staff, Manager, or Owner role required.",
+        )
+    return current_user
+
+
+def require_manager(current_user: User = Depends(get_current_user)) -> User:
+    if current_user.role not in ["MANAGER", "OWNER"]:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Access forbidden: Manager or Owner role required.",
+        )
+    return current_user
+
+
+def require_owner(current_user: User = Depends(get_current_user)) -> User:
+    if current_user.role != "OWNER":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Access forbidden: Owner role required.",
+        )
+    return current_user

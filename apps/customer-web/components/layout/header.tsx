@@ -6,7 +6,6 @@ import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import {
   ShoppingBag,
   User as UserIcon,
-  Phone,
   QrCode,
   LogOut,
   Clock,
@@ -90,16 +89,6 @@ export function Header() {
 
         {/* Action Controls */}
         <div className="flex items-center gap-2 sm:gap-3">
-          {/* Quick Call Direct */}
-          <a
-            href="tel:+919149150004"
-            title="Call Gulavlival Grand: 9149150004"
-            className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-300 border border-amber-200 dark:border-amber-800/50 text-xs font-semibold hover:bg-amber-100 dark:hover:bg-amber-900/50 transition"
-          >
-            <Phone className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
-            <span>9149150004</span>
-          </a>
-
           {/* QR Table indicator if active */}
           {activeTable && (
             <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800/60 text-amber-900 dark:text-amber-300 text-xs font-semibold shadow-xs">

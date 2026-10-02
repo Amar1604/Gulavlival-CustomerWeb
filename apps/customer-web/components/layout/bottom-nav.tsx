@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { UtensilsCrossed, Clock, Phone, User, MessageCircle } from "lucide-react";
+import { UtensilsCrossed, Clock, User } from "lucide-react";
 import { useAuthStore } from "@/lib/stores/auth-store";
 
 export function BottomNav() {
@@ -63,21 +63,7 @@ export function BottomNav() {
           <span className="text-[10px] tracking-tight">Orders</span>
         </Link>
 
-        {/* 3. Instant Call / WhatsApp */}
-        <a
-          href="https://wa.me/919149150004?text=Hello%20Gulavlival%20Grand,%20I%20would%20like%20to%20order"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex flex-col items-center justify-center py-1 text-green-600 dark:text-green-400 transition-all active:scale-95"
-          title="WhatsApp Order / Inquiry"
-        >
-          <div className="relative">
-            <MessageCircle className="w-5 h-5 mb-0.5" />
-          </div>
-          <span className="text-[10px] tracking-tight font-semibold">WhatsApp</span>
-        </a>
-
-        {/* 4. Account / Profile */}
+        {/* 3. Account / Profile */}
         <Link
           href={mounted && isAuthenticated ? "/profile" : "/login"}
           className={`flex flex-col items-center justify-center py-1 transition-all active:scale-95 ${

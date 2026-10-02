@@ -61,11 +61,6 @@ export default function RootLayout({
           <p className="text-neutral-600 dark:text-neutral-400">
             Freshly prepared artisanal dining • Cash on delivery & table service
           </p>
-          <div className="mt-2.5 flex items-center justify-center gap-4 text-xs font-semibold text-amber-800 dark:text-amber-400">
-            <a href="tel:+919149150004" className="hover:underline">📞 +91 9149150004</a>
-            <span className="text-neutral-300 dark:text-neutral-700">•</span>
-            <a href="tel:+919411896149" className="hover:underline">📞 +91 9411896149</a>
-          </div>
           <p className="mt-3 text-neutral-400 dark:text-neutral-500">© 2026 Gulavlival Grand. All rights reserved.</p>
         </footer>
       </body>

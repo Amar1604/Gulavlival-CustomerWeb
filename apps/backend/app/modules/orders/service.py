@@ -87,9 +87,27 @@ class OrderService:
                 "note": item_req.note
             })
 
-        # Calculate taxes and delivery charge
-        tax = round(subtotal * 0.05, 2)
-        delivery_charge = 40.0 if order_type == "DELIVERY" else 0.0
+        # Calculate taxes and delivery charge using settings if available
+        from app.models.settings import RestaurantSettings
+        store_settings = db.query(RestaurantSettings).first()
+        if store_settings and not store_settings.is_open:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Restaurant is currently closed. Opening time: {store_settings.opening_time}"
+            )
+
+        tax_rate = (store_settings.tax_percentage / 100.0) if store_settings else 0.05
+        delivery_fee_val = store_settings.delivery_charge if store_settings else 40.0
+        min_delivery = store_settings.min_delivery_order if store_settings else 0.0
+
+        if order_type == "DELIVERY" and subtotal < min_delivery:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Minimum order for delivery is ₹{min_delivery:.0f}. Current subtotal is ₹{subtotal:.0f}."
+            )
+
+        tax = round(subtotal * tax_rate, 2)
+        delivery_charge = delivery_fee_val if order_type == "DELIVERY" else 0.0
         total = round(subtotal + tax + delivery_charge, 2)
 
         # Combine notes with change assistance and instructions
@@ -150,6 +168,29 @@ class OrderService:
         db.add(history)
         db.commit()
         db.refresh(order)
+
+        # Real-time WebSocket broadcast to counter tablets
+        try:
+            import asyncio
+            from app.core.websocket import order_ws_manager
+            loop = asyncio.get_event_loop()
+            if loop.is_running():
+                payload = {
+                    "event": "NEW_ORDER",
+                    "order": {
+                        "id": order.id,
+                        "order_number": order.order_number,
+                        "order_type": order.order_type,
+                        "table_number": order.table_number,
+                        "customer_name": order.customer_name,
+                        "total": order.total,
+                        "created_at": order.created_at.isoformat() if order.created_at else "",
+                    }
+                }
+                asyncio.ensure_future(order_ws_manager.broadcast(payload))
+        except Exception:
+            pass
+
         return order
 
     @staticmethod

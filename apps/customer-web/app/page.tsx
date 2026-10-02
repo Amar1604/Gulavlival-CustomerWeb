@@ -350,21 +350,13 @@ export default function HomePage() {
               Savor authentic wood-fired pizzas, gourmet brioche burgers, steamed Himalayan momos, and kulhad chai crafted fresh for your table.
             </p>
 
-            {/* 1-Tap Mobile Actions */}
+            {/* Order Action Button */}
             <div className="mt-4 flex flex-wrap items-center gap-2.5">
               <a
-                href="tel:+919149150004"
-                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/20 hover:bg-white/30 text-white text-xs font-bold backdrop-blur-xs transition active:scale-95 border border-white/20"
+                href="#menu"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-xs font-extrabold shadow-lg shadow-amber-500/20 transition active:scale-95"
               >
-                <span>📞 Call: 9149150004</span>
-              </a>
-              <a
-                href="https://wa.me/919149150004?text=Hello%20Gulavlival%20Grand,%20I%20would%20like%20to%20order"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-emerald-600/90 hover:bg-emerald-600 text-white text-xs font-bold backdrop-blur-xs transition active:scale-95 border border-emerald-400/40"
-              >
-                <span>💬 WhatsApp Order</span>
+                <span>🍽️ Explore Menu & Order</span>
               </a>
             </div>
           </div>
@@ -372,7 +364,7 @@ export default function HomePage() {
           {/* Quick Highlight Badges for Wide Screens */}
           <div className="hidden lg:grid grid-cols-2 gap-3 text-xs shrink-0 max-w-sm">
             <div className="p-3 rounded-2xl bg-white/10 dark:bg-neutral-800/60 backdrop-blur-xs border border-white/15 dark:border-neutral-700/60">
-              <p className="font-bold text-amber-200 dark:text-amber-300 text-sm">40+ Dishes</p>
+              <p className="font-bold text-amber-200 dark:text-amber-300 text-sm">50+ Dishes</p>
               <p className="text-[11px] text-amber-100 dark:text-neutral-300">8 Curated Categories</p>
             </div>
             <div className="p-3 rounded-2xl bg-white/10 dark:bg-neutral-800/60 backdrop-blur-xs border border-white/15 dark:border-neutral-700/60">
@@ -384,8 +376,8 @@ export default function HomePage() {
               <p className="text-[11px] text-amber-100 dark:text-neutral-300">Cash & Digital Payments</p>
             </div>
             <div className="p-3 rounded-2xl bg-white/10 dark:bg-neutral-800/60 backdrop-blur-xs border border-white/15 dark:border-neutral-700/60">
-              <p className="font-bold text-amber-200 dark:text-amber-300 text-sm">Quick Call</p>
-              <p className="text-[11px] text-amber-100 dark:text-neutral-300">+91 9149150004</p>
+              <p className="font-bold text-amber-200 dark:text-amber-300 text-sm">Artisanal Kitchen</p>
+              <p className="text-[11px] text-amber-100 dark:text-neutral-300">Fresh & Live Prep</p>
             </div>
           </div>
         </div>

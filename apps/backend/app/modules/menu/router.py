@@ -59,6 +59,7 @@ def get_categories(db: Session = Depends(get_db)):
 
 
 @router.get("/menu", response_model=List[MenuItemOut])
+@router.get("/menu/items", response_model=List[MenuItemOut])
 def get_menu(
     category: Optional[str] = Query(None, description="Category filter"),
     db: Session = Depends(get_db)
