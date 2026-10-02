@@ -29,6 +29,9 @@ const config: Config = {
           dark: "#0d0e12",
           cardDark: "#16171d",
         },
+        neutral: {
+          850: "#1a1b22",
+        },
       },
       fontFamily: {
         display: ["Outfit", "sans-serif"],

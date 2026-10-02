@@ -332,7 +332,7 @@ export default function HomePage() {
   return (
     <div className="space-y-6">
       {/* Brand Hero Welcome Banner */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-amber-800 via-amber-700 to-amber-600 dark:from-neutral-900 dark:via-neutral-850 dark:to-amber-950 text-white p-6 sm:p-10 lg:p-12 shadow-warm dark:shadow-dark-card border border-amber-500/20 dark:border-amber-500/20 transition-all">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-amber-800 via-amber-700 to-amber-600 dark:from-neutral-900 dark:via-neutral-800 dark:to-amber-950 text-white p-6 sm:p-10 lg:p-12 shadow-warm dark:shadow-dark-card border border-amber-500/20 dark:border-amber-500/20 transition-all">
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
           <div className="max-w-2xl">
             <div className="flex items-center gap-2 mb-3">

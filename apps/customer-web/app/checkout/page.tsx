@@ -236,7 +236,7 @@ export default function CheckoutPage() {
                 placeholder="e.g. Table 04 or T-12"
                 value={tableNumber || ""}
                 onChange={(e) => setTableNumber(e.target.value)}
-                className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-lg border border-amber-300 dark:border-amber-700 bg-white dark:bg-neutral-850 text-neutral-900 dark:text-neutral-100 focus:outline-hidden focus:border-amber-600"
+                className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-amber-300 dark:border-amber-700/80 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 placeholder:text-neutral-400 dark:placeholder:text-neutral-400 focus:outline-hidden focus:border-amber-600 dark:focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition-all"
               />
               <p className="text-[11px] text-amber-800 dark:text-amber-400">
                 Auto-detected if you scanned the QR code on your table.
@@ -305,7 +305,7 @@ export default function CheckoutPage() {
                   setDeliveryAddress(e.target.value);
                   setSelectedAddrId(null);
                 }}
-                className="w-full text-xs sm:text-sm p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-850 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-hidden focus:border-amber-500"
+                className="w-full text-xs sm:text-sm p-3.5 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-hidden focus:border-amber-600 dark:focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition-all shadow-2xs"
               />
 
               {subtotal < 200 && (
@@ -365,7 +365,7 @@ export default function CheckoutPage() {
               placeholder="e.g. ₹500 or ₹2000 note"
               value={changeFor}
               onChange={(e) => setChangeFor(e.target.value)}
-              className="w-full text-xs px-3.5 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-850 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-hidden focus:border-amber-500"
+              className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-hidden focus:border-amber-600 dark:focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition-all shadow-2xs"
             />
           </div>
 
@@ -379,7 +379,7 @@ export default function CheckoutPage() {
               placeholder="e.g. Ring the bell, deliver quickly, extra cutlery"
               value={specialInstructions}
               onChange={(e) => setSpecialInstructions(e.target.value)}
-              className="w-full text-xs px-3.5 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-850 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-hidden focus:border-amber-500"
+              className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-hidden focus:border-amber-600 dark:focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition-all shadow-2xs"
             />
           </div>
 

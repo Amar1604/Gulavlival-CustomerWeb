@@ -35,7 +35,7 @@ export function CategoryBar({
               placeholder="Search dishes (Pizza, Chai, Momos)..."
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              className="w-full text-xs sm:text-sm pl-9 pr-8 py-2.5 rounded-xl bg-neutral-100 dark:bg-neutral-900 border border-transparent dark:border-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:bg-white dark:focus:bg-neutral-850 focus:border-amber-500 focus:outline-hidden transition"
+              className="w-full text-xs sm:text-sm pl-9 pr-8 py-2.5 rounded-xl bg-neutral-100 dark:bg-neutral-900 border border-transparent dark:border-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:bg-white dark:focus:bg-neutral-800 focus:border-amber-500 focus:outline-hidden transition"
             />
             {searchQuery && (
               <button
@@ -57,7 +57,7 @@ export function CategoryBar({
             className={`min-h-[42px] flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold border transition active:scale-95 shrink-0 ${
               vegOnly
                 ? "bg-green-50 dark:bg-green-950/50 border-green-500 dark:border-green-600/70 text-green-800 dark:text-green-300 font-bold"
-                : "bg-neutral-50 dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-850"
+                : "bg-neutral-50 dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800"
             }`}
           >
             <span

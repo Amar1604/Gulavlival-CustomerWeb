@@ -28,7 +28,7 @@ export function StickyCartBar() {
       <div className="max-w-md mx-auto pointer-events-auto">
         <Link
           href="/cart"
-          className="flex items-center justify-between bg-neutral-900/95 dark:bg-neutral-900/95 border border-amber-500/40 text-white px-4 py-3 rounded-2xl shadow-elevated dark:shadow-warm-glow hover:bg-neutral-850 dark:hover:bg-neutral-850 backdrop-blur-md transition transform active:scale-[0.98]"
+          className="flex items-center justify-between bg-neutral-900/95 dark:bg-neutral-900/95 border border-amber-500/40 text-white px-4 py-3 rounded-2xl shadow-elevated dark:shadow-warm-glow hover:bg-neutral-800 dark:hover:bg-neutral-800 backdrop-blur-md transition transform active:scale-[0.98]"
         >
           <div className="flex items-center gap-3">
             <div className="relative bg-amber-500 text-neutral-950 p-2 rounded-xl">
