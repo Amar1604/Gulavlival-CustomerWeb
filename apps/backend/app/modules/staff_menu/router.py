@@ -6,6 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.core.dependencies import require_manager, require_owner
+from app.core.websocket import menu_ws_manager
 from app.models.user import User
 from app.models.menu import Category, MenuItem, MenuPriceHistory
 
@@ -22,7 +23,7 @@ class UpdatePriceRequest(BaseModel):
 
 
 @router.patch("/items/{id}/availability")
-def update_item_availability(
+async def update_item_availability(
     id: str,
     req: UpdateAvailabilityRequest,
     current_user: User = Depends(require_manager),
@@ -35,6 +36,14 @@ def update_item_availability(
     item.is_available = req.is_available
     item.updated_at = datetime.now(timezone.utc)
     db.commit()
+
+    # Broadcast real-time change to all connected clients
+    await menu_ws_manager.broadcast({
+        "type": "AVAILABILITY_CHANGED",
+        "item_id": item.id,
+        "is_available": item.is_available
+    })
+
     return {
         "id": item.id,
         "name": item.name,
@@ -44,7 +53,7 @@ def update_item_availability(
 
 
 @router.patch("/items/{id}/price")
-def update_item_price(
+async def update_item_price(
     id: str,
     req: UpdatePriceRequest,
     current_user: User = Depends(require_manager),
@@ -70,6 +79,14 @@ def update_item_price(
     )
     db.add(history)
     db.commit()
+
+    # Broadcast real-time change to all connected clients
+    await menu_ws_manager.broadcast({
+        "type": "PRICE_CHANGED",
+        "item_id": item.id,
+        "new_price": item.base_price
+    })
+
     return {
         "id": item.id,
         "name": item.name,
@@ -89,7 +106,7 @@ class CreateMenuItemRequest(BaseModel):
 
 
 @router.post("/items")
-def create_menu_item(
+async def create_menu_item(
     req: CreateMenuItemRequest,
     current_user: User = Depends(require_manager),
     db: Session = Depends(get_db),
@@ -137,7 +154,7 @@ def create_menu_item(
     db.commit()
     db.refresh(new_item)
 
-    return {
+    item_dict = {
         "id": new_item.id,
         "category_id": new_item.category_id,
         "category_name": new_item.category_name,
@@ -145,7 +162,7 @@ def create_menu_item(
         "slug": new_item.slug,
         "description": new_item.description,
         "base_price": new_item.base_price,
-        "image_url": new_item.image_url,
+        "image_url": new_item.image_url or new_item.image,
         "is_veg": new_item.is_veg,
         "is_bestseller": new_item.is_bestseller,
         "is_available": new_item.is_available,
@@ -153,9 +170,113 @@ def create_menu_item(
         "message": f"Dish '{new_item.name}' added successfully."
     }
 
+    # Broadcast real-time change to all connected clients
+    await menu_ws_manager.broadcast({
+        "type": "MENU_ITEM_CREATED",
+        "item": item_dict
+    })
+
+    return item_dict
+
+
+class UpdateMenuItemRequest(BaseModel):
+    name: Optional[str] = None
+    category_name: Optional[str] = None
+    base_price: Optional[float] = None
+    description: Optional[str] = None
+    is_veg: Optional[bool] = None
+    image_url: Optional[str] = None
+    is_available: Optional[bool] = None
+
+
+@router.put("/items/{id}")
+@router.patch("/items/{id}")
+async def update_menu_item(
+    id: str,
+    req: UpdateMenuItemRequest,
+    current_user: User = Depends(require_manager),
+    db: Session = Depends(get_db),
+):
+    item = db.query(MenuItem).filter(MenuItem.id == id).first()
+    if not item:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Menu item not found")
+
+    if req.name is not None and req.name.strip():
+        item.name = req.name.strip()
+    
+    if req.category_name is not None and req.category_name.strip():
+        cat_name = req.category_name.strip()
+        category = db.query(Category).filter(Category.name == cat_name).first()
+        if not category:
+            category = Category(
+                id=str(uuid.uuid4()),
+                name=cat_name,
+                slug=cat_name.lower().replace(" ", "-").replace("&", "and"),
+                sort_order=99,
+            )
+            db.add(category)
+            db.flush()
+        item.category_id = category.id
+        item.category_name = category.name
+
+    if req.base_price is not None and req.base_price > 0:
+        if req.base_price != item.base_price:
+            history = MenuPriceHistory(
+                id=str(uuid.uuid4()),
+                menu_item_id=item.id,
+                old_price=item.base_price,
+                new_price=req.base_price,
+                changed_by=f"{current_user.full_name} ({current_user.role})",
+                reason="Updated from Menu Manager",
+                created_at=datetime.now(timezone.utc),
+            )
+            db.add(history)
+        item.base_price = float(req.base_price)
+
+    if req.description is not None:
+        item.description = req.description.strip() if req.description.strip() else None
+
+    if req.is_veg is not None:
+        item.is_veg = req.is_veg
+        item.veg = req.is_veg
+
+    if req.image_url is not None:
+        item.image_url = req.image_url.strip() if req.image_url.strip() else None
+        item.image = item.image_url
+
+    if req.is_available is not None:
+        item.is_available = req.is_available
+
+    item.updated_at = datetime.now(timezone.utc)
+    db.commit()
+    db.refresh(item)
+
+    item_dict = {
+        "id": item.id,
+        "category_id": item.category_id,
+        "category_name": item.category_name,
+        "name": item.name,
+        "slug": item.slug,
+        "description": item.description,
+        "base_price": item.base_price,
+        "image_url": item.image_url or item.image,
+        "is_veg": item.is_veg,
+        "is_bestseller": item.is_bestseller,
+        "is_available": item.is_available,
+        "message": f"Dish '{item.name}' updated successfully."
+    }
+
+    # Broadcast real-time change to all connected clients
+    await menu_ws_manager.broadcast({
+        "type": "MENU_ITEM_UPDATED",
+        "item": item_dict
+    })
+
+    return item_dict
+
 
 @router.delete("/items/{id}")
-def delete_menu_item(
+async def delete_menu_item(
     id: str,
     current_user: User = Depends(require_manager),
     db: Session = Depends(get_db),
@@ -173,9 +294,14 @@ def delete_menu_item(
     db.delete(item)
     db.commit()
 
+    # Broadcast real-time deletion to all connected clients
+    await menu_ws_manager.broadcast({
+        "type": "MENU_ITEM_DELETED",
+        "item_id": id
+    })
+
     return {
         "id": id,
         "name": item_name,
         "message": f"Dish '{item_name}' deleted successfully."
     }
-

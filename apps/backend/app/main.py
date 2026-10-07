@@ -25,7 +25,7 @@ app.add_middleware(
 
 # Register routers under /api/v1
 from fastapi import WebSocket, WebSocketDisconnect
-from app.core.websocket import order_ws_manager
+from app.core.websocket import order_ws_manager, menu_ws_manager
 from app.modules.auth.router import router as auth_router
 from app.modules.menu.router import router as menu_router
 from app.modules.orders.router import router as orders_router
@@ -57,6 +57,16 @@ async def websocket_orders(websocket: WebSocket):
             await websocket.receive_text()
     except (WebSocketDisconnect, Exception):
         order_ws_manager.disconnect(websocket)
+
+
+@app.websocket("/api/v1/ws/menu")
+async def websocket_menu(websocket: WebSocket):
+    await menu_ws_manager.connect(websocket)
+    try:
+        while True:
+            await websocket.receive_text()
+    except (WebSocketDisconnect, Exception):
+        menu_ws_manager.disconnect(websocket)
 
 
 

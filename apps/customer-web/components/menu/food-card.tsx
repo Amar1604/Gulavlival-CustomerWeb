@@ -28,6 +28,10 @@ const DEFAULT_CATEGORY_IMAGES: Record<string, string> = {
 export function FoodCard({ item }: FoodCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [imgError, setImgError] = useState(false);
+
+  React.useEffect(() => {
+    setImgError(false);
+  }, [item.image_url]);
   const { items, addItem, updateQuantity, removeItem } = useCartStore();
 
   const hasOptions =

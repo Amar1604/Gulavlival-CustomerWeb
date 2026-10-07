@@ -285,20 +285,108 @@ export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [vegOnly, setVegOnly] = useState(false);
 
-  // Attempt to fetch fresh data from backend
-  useEffect(() => {
-    async function loadBackendMenu() {
-      try {
-        const data = await apiFetch<Category[]>("/categories");
-        if (data && data.length > 0) {
-          setCategories(data);
-        }
-      } catch {
-        // Silently keep seed fallback
+  // Fetch menu from backend
+  const loadBackendMenu = React.useCallback(async () => {
+    try {
+      const data = await apiFetch<Category[]>("/categories");
+      if (data && data.length > 0) {
+        setCategories(data);
       }
+    } catch {
+      // Silently keep seed fallback
     }
-    loadBackendMenu();
   }, []);
+
+  useEffect(() => {
+    loadBackendMenu();
+  }, [loadBackendMenu]);
+
+  // Real-time zero-refresh synchronization via WebSocket
+  useEffect(() => {
+    const rawWsUrl =
+      process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8000/api/v1/ws";
+    const wsUrl = rawWsUrl.endsWith("/menu")
+      ? rawWsUrl
+      : `${rawWsUrl.replace(/\/orders$/, "")}/menu`;
+
+    let ws: WebSocket | null = null;
+    let reconnectTimeout: NodeJS.Timeout | null = null;
+
+    const connect = () => {
+      try {
+        ws = new WebSocket(wsUrl);
+
+        ws.onmessage = (event) => {
+          try {
+            const data = JSON.parse(event.data);
+
+            if (data.type === "AVAILABILITY_CHANGED") {
+              setCategories((prev) =>
+                prev.map((cat) => ({
+                  ...cat,
+                  items: cat.items.map((item) =>
+                    item.id === data.item_id
+                      ? { ...item, is_available: data.is_available }
+                      : item
+                  ),
+                }))
+              );
+            } else if (data.type === "PRICE_CHANGED") {
+              setCategories((prev) =>
+                prev.map((cat) => ({
+                  ...cat,
+                  items: cat.items.map((item) =>
+                    item.id === data.item_id
+                      ? { ...item, base_price: data.new_price }
+                      : item
+                  ),
+                }))
+              );
+            } else if (data.type === "MENU_ITEM_UPDATED" && data.item) {
+              setCategories((prev) =>
+                prev.map((cat) => ({
+                  ...cat,
+                  items: cat.items.map((item) =>
+                    item.id === data.item.id
+                      ? {
+                          ...item,
+                          name: data.item.name,
+                          base_price: data.item.base_price,
+                          description: data.item.description,
+                          image_url: data.item.image_url,
+                          is_veg: data.item.is_veg,
+                          is_available: data.item.is_available,
+                        }
+                      : item
+                  ),
+                }))
+              );
+            } else if (
+              data.type === "MENU_ITEM_CREATED" ||
+              data.type === "MENU_ITEM_DELETED"
+            ) {
+              loadBackendMenu();
+            }
+          } catch {
+            // Ignore parse errors
+          }
+        };
+
+        ws.onclose = () => {
+          reconnectTimeout = setTimeout(connect, 5000);
+        };
+      } catch {
+        // Fallback silently if offline
+      }
+    };
+
+    connect();
+
+    return () => {
+      if (reconnectTimeout) clearTimeout(reconnectTimeout);
+      if (ws) ws.close();
+    };
+  }, [loadBackendMenu]);
 
   // Filtered menu items
   const filteredCategories = useMemo(() => {
