@@ -76,6 +76,13 @@ backend rather than being edited by customers.
 
   Backend source of truth            FastAPI + PostgreSQL
 
+  Real-Time Menu Sync                WebSockets (/api/v1/ws/menu)
+                                     Instant zero-refresh updates for
+                                     prices, sold-out items, and photos
+
+  Food Photo Storage                 Supabase Cloud Storage (menu-photos)
+                                     with Next.js CDN image optimization
+
   Customer order history             Only the authenticated customer's
                                      orders
 
@@ -108,6 +115,8 @@ only login method.
 ## 3.1 In Scope
 
 -   Public menu browsing
+-   Real-time zero-refresh menu sync (WebSockets: live sold-out & prices)
+-   High-resolution food photos served via Supabase CDN
 -   Categories
 -   Food cards
 -   Food details
