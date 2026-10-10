@@ -73,7 +73,7 @@ async def websocket_menu(websocket: WebSocket):
 
 
 
-@app.get("/", tags=["Root"])
+@app.api_route("/", methods=["GET", "HEAD"], tags=["Root"])
 def root():
     return {
         "service": "Gulavlival Grand Backend API",
@@ -84,7 +84,7 @@ def root():
     }
 
 
-@app.get("/health", tags=["Health"])
+@app.api_route("/health", methods=["GET", "HEAD"], tags=["Health"])
 def health_check():
     return {
         "status": "healthy",
