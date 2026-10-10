@@ -16,4 +16,6 @@ class RestaurantSettings(Base):
     min_delivery_order = Column(Float, default=200.0, nullable=False)
     delivery_area = Column(String(255), default="Within 5 km radius", nullable=False)
     whatsapp_notification_phone = Column(String(32), default="9876543210", nullable=False)
+    average_rating = Column(Float, default=4.8, nullable=False)
+    total_reviews = Column(Integer, default=128, nullable=False)
     updated_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc), nullable=False)

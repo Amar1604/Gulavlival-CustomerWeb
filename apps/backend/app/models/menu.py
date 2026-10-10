@@ -39,6 +39,7 @@ class MenuItem(Base):
     is_bestseller = Column(Boolean, default=False, nullable=True)
     is_available = Column(Boolean, default=True, nullable=False)
     rating = Column(Float, default=4.5, nullable=True)
+    rating_count = Column(Integer, default=0, nullable=True)
     calories = Column(Integer, nullable=True)
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=True)
     updated_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc), nullable=True)

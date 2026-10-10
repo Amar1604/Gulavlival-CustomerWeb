@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { X, Plus, Minus, Check } from "lucide-react";
+import { X, Plus, Minus, Check, Star } from "lucide-react";
 import { MenuItem, Variant, AddOn } from "@/types";
 import { formatCurrency } from "@/lib/utils";
 import { useCartStore } from "@/lib/stores/cart-store";
@@ -66,6 +66,15 @@ export function ItemCustomizerModal({ item, onClose }: ItemCustomizerModalProps)
               <h3 className="font-display font-bold text-base sm:text-lg text-neutral-900 dark:text-neutral-100">
                 {item.name}
               </h3>
+            </div>
+            <div className="flex items-center gap-2 mb-1.5">
+              <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-500 bg-amber-50 dark:bg-amber-950/40 px-2 py-0.5 rounded-md border border-amber-500/20">
+                <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+                <span>{(item.rating || 4.5).toFixed(1)}</span>
+                {item.rating_count ? (
+                  <span className="text-neutral-400 text-[10px] font-normal">({item.rating_count} reviews)</span>
+                ) : null}
+              </span>
             </div>
             {item.description && (
               <p className="text-xs text-neutral-500 dark:text-neutral-400 line-clamp-2">

@@ -24,6 +24,8 @@ export interface MenuItem {
   is_veg: boolean;
   is_bestseller: boolean;
   is_available: boolean;
+  rating?: number;
+  rating_count?: number;
   variants: Variant[];
   add_ons: AddOn[];
 }
@@ -52,6 +54,7 @@ export type OrderStatus = "RECEIVED" | "CONFIRMED" | "DELIVERED" | "CANCELLED";
 
 export interface OrderItem {
   id: string;
+  menu_item_id?: string;
   item_name_snapshot: string;
   variant_name_snapshot?: string;
   unit_price: number;

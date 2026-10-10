@@ -5,7 +5,7 @@ import { CategoryBar } from "@/components/menu/category-bar";
 import { FoodCard } from "@/components/menu/food-card";
 import { Category, MenuItem } from "@/types";
 import { apiFetch } from "@/lib/api-client";
-import { UtensilsCrossed, AlertCircle } from "lucide-react";
+import { UtensilsCrossed, AlertCircle, Star } from "lucide-react";
 
 // Default seed categories matching the project specifications
 const INITIAL_CATEGORIES: Category[] = [
@@ -356,6 +356,8 @@ export default function HomePage() {
                           image_url: data.item.image_url,
                           is_veg: data.item.is_veg,
                           is_available: data.item.is_available,
+                          rating: data.item.rating ?? item.rating,
+                          rating_count: data.item.rating_count ?? item.rating_count,
                         }
                       : item
                   ),
@@ -423,9 +425,13 @@ export default function HomePage() {
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-amber-800 via-amber-700 to-amber-600 dark:from-neutral-900 dark:via-neutral-800 dark:to-amber-950 text-white p-6 sm:p-10 lg:p-12 shadow-warm dark:shadow-dark-card border border-amber-500/20 dark:border-amber-500/20 transition-all">
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
           <div className="max-w-2xl">
-            <div className="flex items-center gap-2 mb-3">
+            <div className="flex flex-wrap items-center gap-2 mb-3">
               <span className="inline-block px-3 py-1 rounded-full bg-white/20 dark:bg-amber-500/20 backdrop-blur-xs text-xs font-bold tracking-widest uppercase text-white dark:text-amber-300">
                 Handcrafted Flavors
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/25 border border-amber-300/30 backdrop-blur-xs text-xs font-bold text-amber-200">
+                <Star className="w-3.5 h-3.5 fill-amber-300 text-amber-300" />
+                <span>4.8 Rating • 128+ Verified Diners</span>
               </span>
               <span className="hidden sm:inline-block px-3 py-1 rounded-full bg-amber-400/20 backdrop-blur-xs text-xs font-semibold text-amber-200">
                 Fresh to Order

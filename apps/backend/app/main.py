@@ -36,6 +36,7 @@ from app.modules.staff_menu.router import router as staff_menu_router
 from app.modules.settings.router import router as settings_router
 from app.modules.team.router import router as team_router
 from app.modules.cash.router import router as cash_router
+from app.modules.reviews.router import router as reviews_router
 
 app.include_router(auth_router, prefix=settings.API_V1_PREFIX)
 app.include_router(menu_router, prefix=settings.API_V1_PREFIX)
@@ -47,6 +48,7 @@ app.include_router(staff_menu_router, prefix=settings.API_V1_PREFIX)
 app.include_router(settings_router, prefix=settings.API_V1_PREFIX)
 app.include_router(team_router, prefix=settings.API_V1_PREFIX)
 app.include_router(cash_router, prefix=settings.API_V1_PREFIX)
+app.include_router(reviews_router, prefix=settings.API_V1_PREFIX)
 
 
 @app.websocket("/api/v1/ws/orders")

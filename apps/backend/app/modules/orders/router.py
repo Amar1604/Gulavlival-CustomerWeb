@@ -30,6 +30,7 @@ def _format_order(order) -> OrderOut:
         items=[
             OrderItemOut(
                 id=item.id,
+                menu_item_id=item.menu_item_id,
                 item_name_snapshot=item.name,
                 variant_name_snapshot=item.variant_name,
                 unit_price=item.unit_price,

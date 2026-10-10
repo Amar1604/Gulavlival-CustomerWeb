@@ -5,6 +5,7 @@ from app.models.menu import Category, MenuItem, MenuVariant, AddOn, MenuPriceHis
 from app.models.order import Order, OrderItem, OrderStatusHistory
 from app.models.settings import RestaurantSettings
 from app.models.cash import CashRecord
+from app.models.review import RestaurantReview, MenuItemRating
 
 __all__ = [
     "Base",
@@ -20,5 +21,6 @@ __all__ = [
     "OrderStatusHistory",
     "RestaurantSettings",
     "CashRecord",
+    "RestaurantReview",
+    "MenuItemRating",
 ]
-

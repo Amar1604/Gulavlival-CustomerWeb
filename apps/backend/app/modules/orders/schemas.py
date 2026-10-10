@@ -23,6 +23,7 @@ class CreateOrderRequest(BaseModel):
 
 class OrderItemOut(BaseModel):
     id: str
+    menu_item_id: Optional[str] = None
     item_name_snapshot: str
     variant_name_snapshot: Optional[str] = None
     unit_price: float

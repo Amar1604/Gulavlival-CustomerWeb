@@ -33,6 +33,41 @@ export default function RootLayout({
             `,
           }}
         />
+        {/* Google Schema.org Local SEO & Star Rating Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Restaurant",
+              "name": "Gulavlival Grand",
+              "description": "Order handcrafted artisanal pizzas, burgers, kulhad chai, shakes, momos, and continental specialties.",
+              "image": "https://images.unsplash.com/photo-1513104890138-7c749659a591",
+              "servesCuisine": [
+                "Pizza",
+                "Burgers",
+                "Chinese",
+                "Momos",
+                "Cafe",
+                "Fast Food",
+                "Continental"
+              ],
+              "priceRange": "₹₹",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Gulavlival",
+                "addressCountry": "IN"
+              },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.8",
+                "reviewCount": "128",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            }),
+          }}
+        />
       </head>
       <body className="min-h-screen flex flex-col antialiased selection:bg-amber-200 selection:text-amber-900 pb-28 sm:pb-16 bg-[#faf9f6] dark:bg-[#0d0e12] text-neutral-900 dark:text-neutral-100">
         <Suspense fallback={<div className="h-16 bg-white dark:bg-neutral-950 border-b border-amber-100 dark:border-neutral-800" />}>

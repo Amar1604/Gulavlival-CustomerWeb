@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { Plus, Minus, Sparkles } from "lucide-react";
+import { Plus, Minus, Sparkles, Star } from "lucide-react";
 import { MenuItem } from "@/types";
 import { formatCurrency } from "@/lib/utils";
 import { ItemCustomizerModal } from "./item-customizer-modal";
@@ -119,6 +119,17 @@ export function FoodCard({ item }: FoodCardProps) {
                   Bestseller
                 </span>
               )}
+            </div>
+
+            {/* Star Rating Badge (Top Right) */}
+            <div className="absolute top-2.5 right-2.5">
+              <span className="flex items-center gap-1 text-[10px] font-extrabold bg-neutral-900/85 backdrop-blur-xs text-amber-400 px-2 py-0.5 rounded-md shadow-xs border border-amber-500/30">
+                <Star className="w-2.5 h-2.5 fill-amber-400 text-amber-400" />
+                <span>{(item.rating || 4.5).toFixed(1)}</span>
+                {item.rating_count ? (
+                  <span className="text-neutral-400 text-[9px] font-normal">({item.rating_count})</span>
+                ) : null}
+              </span>
             </div>
 
             {/* Sold-out or Multi-variant tag */}

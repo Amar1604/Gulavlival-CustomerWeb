@@ -24,6 +24,8 @@ class MenuItemOut(BaseModel):
     is_veg: bool = True
     is_bestseller: bool = False
     is_available: bool = True
+    rating: Optional[float] = 4.5
+    rating_count: Optional[int] = 0
     variants: List[VariantOut] = []
 
     class Config:

@@ -16,6 +16,7 @@ import { apiFetch } from "@/lib/api-client";
 import { Order, OrderStatus } from "@/types";
 import { formatCurrency } from "@/lib/utils";
 import { BackButton } from "@/components/ui/back-button";
+import { OrderRatingCard } from "@/components/orders/order-rating-card";
 
 export default function OrderTrackingPage() {
   const params = useParams();
@@ -256,6 +257,11 @@ export default function OrderTrackingPage() {
           <span className="font-bold text-amber-800 dark:text-amber-400">Please speak with our counter staff</span>
         </div>
       </div>
+
+      {/* Verified Experience & Dish Rating Card */}
+      {!isCancelled && (
+        <OrderRatingCard order={order} />
+      )}
     </div>
   );
 }

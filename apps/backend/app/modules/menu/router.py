@@ -27,6 +27,8 @@ def format_menu_item(item) -> MenuItemOut:
         is_veg=bool(item.is_veg if item.is_veg is not None else item.veg),
         is_bestseller=bool(item.is_bestseller if item.is_bestseller is not None else item.popular),
         is_available=bool(item.is_available),
+        rating=float(getattr(item, "rating", 4.5) or 4.5),
+        rating_count=int(getattr(item, "rating_count", 0) or 0),
         variants=[
             VariantOut(
                 id=v.id,

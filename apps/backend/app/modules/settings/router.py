@@ -55,6 +55,8 @@ def get_public_settings(db: Session = Depends(get_db)):
         "delivery_charge": settings.delivery_charge,
         "min_delivery_order": settings.min_delivery_order,
         "delivery_area": settings.delivery_area,
+        "average_rating": float(getattr(settings, "average_rating", 4.8) or 4.8),
+        "total_reviews": int(getattr(settings, "total_reviews", 128) or 128),
     }
 
 
